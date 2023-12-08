@@ -6,12 +6,35 @@
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:43:23 by abouyata          #+#    #+#             */
-/*   Updated: 2023/12/08 18:48:09 by abouyata         ###   ########.fr       */
+/*   Updated: 2023/12/08 19:12:10 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void    ft_strdelete(char **s)
+{
+    if (s != NULL && *s != NULL)
+    {
+        free (*s);
+        *s = NULL;
+    }
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return (s);
+		s++;
+	}
+	if (*s == (char)c)
+	{
+		return (s);
+	}
+	return (NULL);
+}
 static char	*ajouteligne(char **s, char **line)
 {
 	int	len;
