@@ -6,13 +6,13 @@
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:43:23 by abouyata          #+#    #+#             */
-/*   Updated: 2023/11/23 14:10:16 by abouyata         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:48:09 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ajouteligne(char **s, char **line)
+static char	*ajouteligne(char **s, char **line)
 {
 	int	len;
 	char *tmp;
@@ -37,28 +37,19 @@ static int	ajouteligne(char **s, char **line)
 		*line = ft_strdup(*s);
 		ft_strdelete(s);
 	}
-	return (1);
+	return (*line);
 }
 
-static int	output(char **s, char **line, int ret, int fd)
-{
-	if (ret < 0)
-		return (-1);
-	else if (ret == 0 && s[fd] == NULL)
-		return (0);
-	else
-		return (ajouteligne(&s[fd], line));
-}
-
-int	get_next_line(const int fd, char **line)
+char *get_next_line(const int fd)
 {
 	int	ret;
 	static char	*s[FD_SIZE];
 	char	buff[BUFF_SIZE + 1];
 	char	*tmp;
+	char	*line;
 
-	if (fd < 0 || line == NULL)
-		return (-1);
+	if (fd < 0)
+		return (NULL);
 	while((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
@@ -73,22 +64,7 @@ int	get_next_line(const int fd, char **line)
 		if (ft_strchr(s[fd], '\n'))
 			break ;
 	}
-	return (output(s, line, ret, fd));
-}
-int main()
-{
-	int fd;
-
-	char *line;
-
-	fd = open("exemple.txt", O_RDONLY);
-	get_next_line(fd, &line);
-	printf("%s\n",line);
-	get_next_line(fd, &line);
-	printf("%s\n",line);
-	get_next_line(fd, &line);
-	printf("%s\n",line);
-	get_next_line(fd, &line);
-	printf("%s\n",line);
-
+	if (ret <= 0 && s[fd] == NULL)
+		return (0);
+	return (ajouteligne(&s[fd], &line));
 }

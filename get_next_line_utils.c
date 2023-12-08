@@ -6,7 +6,7 @@
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 11:10:32 by abouyata          #+#    #+#             */
-/*   Updated: 2023/11/23 14:24:46 by abouyata         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:38:02 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-static size_t	ft_strlcpy(char *dst, const char *src, unsigned int destsize)
+size_t	ft_strlcpy(char *dst, const char *src, unsigned int destsize)
 {
 	unsigned int	i;
 
@@ -96,7 +96,7 @@ static size_t	ft_strlcpy(char *dst, const char *src, unsigned int destsize)
 	return (i);
 }
 
-static size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
 	size_t	sizedest;
 	size_t	sizesrc;
@@ -125,7 +125,7 @@ static size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (sizedest + sizesrc);
 }
 
-static char	*ft_is_null(char const *s1, char const *s2)
+char	*ft_is_null(char const *s1, char const *s2)
 {
 	if (s1 == NULL || s2 == NULL)
 	{
@@ -141,11 +141,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	len_s1;
 	size_t	len_s2;
 	char	*str;
-	char	*ptr;
 
-	ptr = ft_is_null(s1, s2);
-	if (ptr != NULL)
-		return (ptr);
+	if (s1 == NULL || s2 == NULL)
+	{
+		if (s1 == NULL)
+			return (ft_strdup(s2));
+		return (ft_strdup(s1));
+	}
 	len_s1 = ft_strlen((char *)s1);
 	len_s2 = ft_strlen((char *)s2);
 	str = (char *)malloc(len_s1 + len_s2 + 1);
