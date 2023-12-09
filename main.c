@@ -3,23 +3,24 @@
 int main()
 {
     int fd;
-	char *line;
-   
+	 char *line;
+	// char *max 
 
-    fd = open("exemple.txt", O_RDONLY);
-	// while((line = get_next_line(fd)) != NULL)
-	// 		{
-	// 		printf("%s\n",line);
-	// 		free (line);
-	// 		}
+    fd = open("example", O_RDONLY);
+	 /*while((line = get_next_line(fd)) != NULL)
+	 		{
+ 			printf("%s\n",line);
+	 		free (line);
+	 		}*/
 	printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
-	// printf("%s\n",get_next_line(fd));
+	//printf("%ld",sizeof(char *));
+//	 printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
+///	printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
+//	printf("%s\n",get_next_line(fd));
 	
 }

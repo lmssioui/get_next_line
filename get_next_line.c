@@ -93,7 +93,7 @@ static char	*ajouteligne(char **s, char **line)
 char	*get_next_line(const int fd)
 {
 	static char	*s[FD_SIZE];
-	char		buff[BUFF_SIZE + 1];
+	char		buff[BUFF_SIZE];
 	char		*tmp;
 	char		*line;
 	
@@ -104,6 +104,7 @@ char	*get_next_line(const int fd)
 	{
 		buff[ret] = '\0';
 		if (s[fd] == NULL)
+
 			s[fd] = ft_strdup(buff);
 		else
 		{
@@ -116,6 +117,6 @@ char	*get_next_line(const int fd)
 		ret = read(fd, buff, BUFF_SIZE);
 	}
 	if (ret <= 0 && s[fd] == NULL)
-		return (0);
+		return (NULL);
 	return (ajouteligne(&s[fd], &line));
 }

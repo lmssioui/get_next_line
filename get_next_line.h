@@ -21,7 +21,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
-# define BUFF_SIZE 42
+# define BUFF_SIZE 1024
 # define FD_SIZE 1024
 
 char 	*get_next_line(const int fd);
