@@ -7,9 +7,19 @@ int main()
    
 
     fd = open("exemple.txt", O_RDONLY);
-	while((line = get_next_line(fd)) != NULL)
-			{
-			printf("%s\n",line);
-			free (line);
-			}
+	// while((line = get_next_line(fd)) != NULL)
+	// 		{
+	// 		printf("%s\n",line);
+	// 		free (line);
+	// 		}
+	printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	// printf("%s\n",get_next_line(fd));
+	
 }

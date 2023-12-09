@@ -12,13 +12,39 @@
 
 #include "get_next_line.h"
 
-void    ft_strdelete(char **s)
+void	ft_strdelete(char **s)
 {
-    if (s != NULL && *s != NULL)
-    {
-        free (*s);
-        *s = NULL;
-    }
+	if (s != NULL && *s != NULL)
+	{
+		free(*s);
+		*s = NULL;
+	}
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*str;
+
+	if (s1 == NULL || s2 == NULL)
+	{
+		if (s1 == NULL)
+			return (ft_strdup(s2));
+		return (ft_strdup(s1));
+	}
+	len_s1 = ft_strlen((char *)s1);
+	len_s2 = ft_strlen((char *)s2);
+	str = (char *)malloc(len_s1 + len_s2 + 1);
+	if (str == NULL)
+		return (NULL);
+	if (s1 != NULL)
+		ft_strlcpy(str, s1, len_s1 + 1);
+	else
+		str[0] = '\0';
+	if (s2 != NULL)
+		ft_strlcat(str + len_s1, s2, len_s1 + len_s2 + 1);
+	return (str);
 }
 
 char	*ft_strchr(char *s, int c)
@@ -35,10 +61,11 @@ char	*ft_strchr(char *s, int c)
 	}
 	return (NULL);
 }
+
 static char	*ajouteligne(char **s, char **line)
 {
-	int	len;
-	char *tmp;
+	int		len;
+	char	*tmp;
 
 	len = 0;
 	while ((*s)[len] != '\n' && (*s)[len] != '\0')
@@ -49,7 +76,7 @@ static char	*ajouteligne(char **s, char **line)
 		tmp = ft_strdup(&((*s)[len + 1]));
 		if ((*s)[len + 1] == '\0')
 			ft_strdelete(s);
-		else 
+		else
 		{
 			free(*s);
 			*s = tmp;
@@ -63,17 +90,17 @@ static char	*ajouteligne(char **s, char **line)
 	return (*line);
 }
 
-char *get_next_line(const int fd)
+char	*get_next_line(const int fd)
 {
-	int	ret;
 	static char	*s[FD_SIZE];
-	char	buff[BUFF_SIZE + 1];
-	char	*tmp;
-	char	*line;
-
-	if (fd < 0)
+	char		buff[BUFF_SIZE + 1];
+	char		*tmp;
+	char		*line;
+	
+	if (fd < 0 || BUFF_SIZE >= INT_MAX)
 		return (NULL);
-	while((ret = read(fd, buff, BUFF_SIZE)) > 0)
+	int	ret = read(fd, buff, BUFF_SIZE);
+	while (ret > 0)
 	{
 		buff[ret] = '\0';
 		if (s[fd] == NULL)
@@ -86,6 +113,7 @@ char *get_next_line(const int fd)
 		}
 		if (ft_strchr(s[fd], '\n'))
 			break ;
+		ret = read(fd, buff, BUFF_SIZE);
 	}
 	if (ret <= 0 && s[fd] == NULL)
 		return (0);
