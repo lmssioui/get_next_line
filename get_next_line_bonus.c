@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 18:05:31 by abouyata          #+#    #+#             */
-/*   Updated: 2023/12/22 10:54:22 by abouyata         ###   ########.fr       */
+/*   Created: 2023/12/22 12:15:47 by abouyata          #+#    #+#             */
+/*   Updated: 2023/12/22 12:17:03 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,15 @@ char	*new_line(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char	*s;
-	static char  *str;
+	static char  *str[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
-	str = new_line(fd, str);
-	if (str == NULL)
+	str[fd] = new_line(fd, str[fd]);
+	if (str[fd] == NULL)
 		return (NULL);
-	s = line(str);
-	str = after_ln(str);
+	s = line(str[fd]);
+	str[fd] = after_ln(str[fd]);
 	return (s);
 }
+
