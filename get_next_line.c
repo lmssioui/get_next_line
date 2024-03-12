@@ -6,17 +6,17 @@
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:05:31 by abouyata          #+#    #+#             */
-/*   Updated: 2023/12/22 10:54:22 by abouyata         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:23:20 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*after_ln(char *str)
+static char	*after_ln(char *str)
 {
-	char *s;
-	int	i;
-	int	j;
+	char	*s;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -41,16 +41,16 @@ char	*after_ln(char *str)
 	return (s);
 }
 
-char	*line(char *str)
+static char	*line(char *str)
 {
-	char *s;
-	int	i;
-	int	j;
+	char	*s;
+	int		i;
+	int		j;
 
 	i = 0;
 	if (!str[0])
 		return (NULL);
-	while(str[i] != '\n' && str[i] != '\0')
+	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i])
 		i++;
@@ -70,28 +70,24 @@ char	*line(char *str)
 	return (s);
 }
 
-char	*new_line(int fd, char *str)
+static char	*new_line(int fd, char *str)
 {
-	ssize_t ret;
-	char 	*buff;
+	ssize_t	ret;
+	char	*buff;
 
 	ret = 1;
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buff = (char *)malloc((size_t)BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
 	while (ret > 0)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret == -1)
-		{
-			free(buff);
-			free(str);
-			return(NULL);
-		}
+			return (free(buff), free(str), NULL);
 		else if (ret == 0)
 			break ;
 		buff[ret] = '\0';
-		str = ft_strjoin(str,buff);
+		str = ft_strjoin(str, buff);
 		if (ft_strchr(str, '\n'))
 			break ;
 	}
@@ -101,10 +97,10 @@ char	*new_line(int fd, char *str)
 
 char	*get_next_line(int fd)
 {
-	char	*s;
-	static char  *str;
+	char		*s;
+	static char	*str;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = new_line(fd, str);
 	if (str == NULL)

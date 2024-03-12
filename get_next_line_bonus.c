@@ -6,17 +6,17 @@
 /*   By: abouyata <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 12:15:47 by abouyata          #+#    #+#             */
-/*   Updated: 2023/12/22 12:17:03 by abouyata         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:16:48 by abouyata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*after_ln(char *str)
+static char	*after_ln(char *str)
 {
-	char *s;
-	int	i;
-	int	j;
+	char	*s;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -41,16 +41,16 @@ char	*after_ln(char *str)
 	return (s);
 }
 
-char	*line(char *str)
+static char	*line(char *str)
 {
-	char *s;
-	int	i;
-	int	j;
+	char	*s;
+	int		i;
+	int		j;
 
 	i = 0;
 	if (!str[0])
 		return (NULL);
-	while(str[i] != '\n' && str[i] != '\0')
+	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i])
 		i++;
@@ -70,13 +70,13 @@ char	*line(char *str)
 	return (s);
 }
 
-char	*new_line(int fd, char *str)
+static char	*new_line(int fd, char *str)
 {
-	ssize_t ret;
-	char 	*buff;
+	ssize_t	ret;
+	char	*buff;
 
 	ret = 1;
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buff = (char *)malloc((size_t) BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
 	while (ret > 0)
@@ -86,12 +86,12 @@ char	*new_line(int fd, char *str)
 		{
 			free(buff);
 			free(str);
-			return(NULL);
+			return (NULL);
 		}
 		else if (ret == 0)
 			break ;
 		buff[ret] = '\0';
-		str = ft_strjoin(str,buff);
+		str = ft_strjoin(str, buff);
 		if (ft_strchr(str, '\n'))
 			break ;
 	}
@@ -101,10 +101,10 @@ char	*new_line(int fd, char *str)
 
 char	*get_next_line(int fd)
 {
-	char	*s;
-	static char  *str[1024];
+	char		*s;
+	static char	*str[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str[fd] = new_line(fd, str[fd]);
 	if (str[fd] == NULL)
@@ -113,4 +113,3 @@ char	*get_next_line(int fd)
 	str[fd] = after_ln(str[fd]);
 	return (s);
 }
-
