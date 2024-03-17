@@ -109,3 +109,13 @@ char	*get_next_line(int fd)
 	str = after_ln(str);
 	return (s);
 }
+int main(int ac, char **av)
+{
+	if (ac != 2)
+	{
+		perror("Argumants number invalid");
+		exit (1);
+	}
+	int fd = open (av[1], O_RDONLY);
+	printf("%s\n",get_next_line(fd));
+}
